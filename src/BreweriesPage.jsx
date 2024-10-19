@@ -5,7 +5,8 @@ export function BreweriesPage() {
   // {id: 1, etc.}]
   return (
     <main>
-      <BreweriesIndex breweries={breweries} />
+      <BreweriesIndex />
+      {/* breweries={breweries} /> */}
     </main>
   )
 }
