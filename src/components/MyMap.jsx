@@ -23,19 +23,21 @@ const MyMap = () => {
   });
 
   const [markerPosition, setMarkerPosition] = useState(null);
-
+  const [breweries, setBreweries] = useState([]) 
   // Handle user click on the map
   const handleMapClick = useCallback((event) => {
     const lat = event.latLng.lat();
     const lng = event.latLng.lng();
     setMarkerPosition({ lat, lng });
-    console.log(`Latitude: ${lat}, Longitude: ${lng}`);
+    // console.log(`Latitude: ${lat}, Longitude: ${lng}`);
     const coordinates = [lng, lat]
-    console.log(coordinates)
+    // console.log(coordinates)
     axios.get('http://localhost:3000/breweries/nearby.json', {
       params: { coordinates: coordinates}
     }).then(response => {
-      console.log(response.data);
+      setBreweries(response.data);
+      // console.log(breweries);
+      // console.log(response.data);
     })
 
 
@@ -55,6 +57,22 @@ const MyMap = () => {
       zoom={10}
       onClick={handleMapClick}  // Event listener for map clicks
     >
+      {/* {
+      // console.log(breweries)
+      
+      // breweries.forEach(brewery => (
+      //   console.log(brewery),
+      //   console.log(parseFloat(brewery.lat) + 1)
+      // )
+      // )
+} */}
+      {breweries.map((brewery) => (
+        // console.log(brewery)
+        <Marker
+          key={brewery.id}
+          position={{lat:parseFloat(brewery.lat), lng:parseFloat(brewery.long)}}
+        />
+      ))}
       {markerPosition && <Marker position={markerPosition} />}
     </GoogleMap>
   );
